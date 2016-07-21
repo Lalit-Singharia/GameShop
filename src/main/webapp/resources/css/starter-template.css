@@ -1,0 +1,24 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+}
+
+.container
+{
+/* 	background-color:black ; */
+	color:black;
+	padding: 5px;
+	border-radius : 10px;
+	
+	padding-top: 10px;
+	
+}
+
+.img-thumbnail
+{
+	margin-top: 80px;
+	
+	border-color: black;
+}

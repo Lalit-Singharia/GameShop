@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd 
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+       
+<context:annotation-config/>
+
+<mvc:annotation-driven/>
+
+<mvc:resources location="/resources/" mapping="/resources/**"/>
+       
+<context:component-scan base-package="com.niit"/>
+
+ <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="org.h2.Driver" />
+        <property name="url" value="jdbc:h2:tcp://localhost/~/Lalit" />
+        <property name="username" value="sa"/>
+        <property name="password" value="" />
+    </bean>
+    
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" >
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="hibernateProperties" >
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+            </props>
+        </property>
+        <property name="packagesToScan">
+            <list>
+                <value>com.niit</value>
+            </list>
+        </property>
+    </bean>
+
+
+	<tx:annotation-driven transaction-manager="transactionManager"/> 
+	
+    <bean id="transactionManager" 
+    class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <bean id = "userDAO" class ="com.niit.gameShop.dao.userDaoImpl">   	
+    	<property name = "sessionFactory" ref="sessionFactory"/>
+    	
+    </bean>
+    
+    <bean id = "userService" class="com.niit.gameShop.service.UserServiceImpl" >
+    	<property name="userDAO" ref="userDAO"></property>
+    </bean>
+    
+    <bean id = "roleDAO" class ="com.niit.gameShop.dao.RoleDaoImpl">   	
+    	<property name = "sessionFactory" ref="sessionFactory"/>
+    	
+    </bean>
+    
+    <bean id = "roleService" class="com.niit.gameShop.service.RoleServiceImpl" >
+    	<property name="roleDAO" ref="roleDAO"/>
+    </bean>
+    
+    <bean id = "basicUserDAO" class ="com.niit.gameShop.dao.BasicUserImpl">   	
+    	<property name = "sessionFactory" ref="sessionFactory"/>
+    	
+    </bean>
+    
+    <bean id = "basicUserService" class="com.niit.gameShop.service.BasicUserServiceImpl" >
+    	<property name="basicUserDAO" ref="basicUserDAO"></property>
+    </bean>
+    
+    <bean id = "categoryDAO" class ="com.niit.gameShop.dao.CategoryDaoImpl">   	
+    	<property name = "sessionFactory" ref="sessionFactory"/>
+    	
+    </bean>
+    
+    <bean id = "categoryService" class="com.niit.gameShop.service.CategoryServiceImpl" >
+    	<property name="categoryDAO" ref="categoryDAO"></property>
+    </bean>
+    
+    <bean id = "supplierDAO" class ="com.niit.gameShop.dao.SupplierDaoImpl">   	
+    	<property name = "sessionFactory" ref="sessionFactory"/>
+    	
+    </bean>
+    
+    <bean id = "supplierService" class="com.niit.gameShop.service.SupplierServiceImpl" >
+    	<property name="supplierDAO" ref="supplierDAO"></property>
+    </bean>
+    
+    <bean id = "productDAO" class ="com.niit.gameShop.dao.ProductDaoImpl">   	
+    	<property name = "sessionFactory" ref="sessionFactory"/>
+    	
+    </bean>
+    
+    <bean id = "productService" class="com.niit.gameShop.service.ProductServiceImpl" >
+    	<property name="productDAO" ref="productDAO"></property>
+    </bean>
+    
+    <bean id = "cartDAO" class ="com.niit.gameShop.dao.CartDaoImpl">   	
+    	<property name = "sessionFactory" ref="sessionFactory"/>
+    	
+    </bean>
+    
+    <bean id = "cartService" class="com.niit.gameShop.service.CartServiceImpl" >
+    	<property name="cartDAO" ref="cartDAO"></property>
+    </bean>
+
+	<bean id = "cartItemDAO" class ="com.niit.gameShop.dao.CartItemDaoImpl">   	
+    	<property name = "sessionFactory" ref="sessionFactory"/>
+    	
+    </bean>
+    
+    <bean id = "cartItemService" class="com.niit.gameShop.service.CartItemServiceImpl" >
+    	<property name="cartItemDAO" ref="cartItemDAO"></property>
+    </bean>
+
+</beans>
